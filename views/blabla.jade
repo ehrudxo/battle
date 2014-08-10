@@ -1,0 +1,20 @@
+doctype html
+html(lang="kr")
+  head
+    title= 'Which Is Better'
+    script(src='/js/foundation.min.js')
+    link(rel='stylesheet', href='/css/foundation.min.css')
+    link(rel='stylesheet', href='/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/css/cpg.css')
+  body
+    h2 &nbsp; 
+      i.fa.fa-child
+      &nbsp;&nbsp; 어떤가요? 
+    img(src='/canvas/#{id}/which/#{which}')
+    #choiceBox
+      a.button.left(href="/blabla/#{id}/which/1") 
+        'A' 가 더 
+        i.fa.fa-thumbs-up 
+      a.button.right(href="/blabla/#{id}/which/2") 
+        'B' 가 더 
+        i.fa.fa-thumbs-up

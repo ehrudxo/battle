@@ -1,0 +1,35 @@
+doctype html
+html(lang="kr")
+  include ./head.jade
+  body
+    include ./navbar.jade
+    .jumbotron
+      .container
+        h1 Things in this world
+        p Never talks with text. If you type, we draw.
+    .container
+      .row
+        .col-md-4
+          h2 웹주소로 등록
+          p 나누고 싶거나 비교하고 싶은 품목등록을 해 주세요
+          p
+            a.btn.btn-default(href="#", role="button", data-toggle="modal",data-target="#urluploader") url로 올리기
+        .col-md-4
+          h2 업로드로 등록
+          p 장비에 있는 파일을 선택해 주세요
+          p
+            a.btn.btn-default(href="#", role="button") View Details
+        .col-md-4
+          h2 이메일로 등록
+          p blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla blablabla
+          p
+            a.btn.btn-default(href="#", role="button") View Details
+      hr
+    footer
+      p I am footer
+include ./modal.jade
+script.
+  var init = function(){
+    
+  }
+include ./fscript.jade

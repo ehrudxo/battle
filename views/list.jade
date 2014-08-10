@@ -1,0 +1,22 @@
+doctype html
+html(lang="kr")
+  include ./head.jade
+  body
+    include ./navbar.jade
+    .container
+      .row.row-offcanvas.row-offcanvas-right
+        .col-xs-12.col-sm-9
+          .jumbotron
+            h1 업로드한 짤들을 적절히
+            p 선택해서 비교!
+          .row
+            select.image-picker.show-labels.show-html
+              - for (var i = 0; i < list.length; ++i) {
+              option(data-img-src='/getUploadImg/#{list[i]["value"]["imgs"][0]["filetoken"]}',value='#{list[i]["value"]["imgs"][0]["filetoken"]}') #{list[i]["value"]["content"]}
+              - }
+        .col-xs-6.col-sm-3.sidebar-offcanvas
+          p aa
+    footer
+      p I am footer
+include ./modal.jade
+include ./fscript.jade

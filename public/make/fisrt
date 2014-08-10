@@ -1,0 +1,11 @@
+<html>
+<head></head>
+<body>
+	1.<img src="../img/cpsample01.jpg" > vs  2.<img src="../img/cpsample02.jpg" >
+	<br/>
+	<br/>
+	어느게 더 맘에 드세요?
+	<a href ="choose1.html">1번</a> &nbsp;&nbsp;&nbsp;
+	<a href ="choose2.html">2번</a>
+</body>
+</html>

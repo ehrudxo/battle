@@ -1,0 +1,20 @@
+.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+  .container
+    .navbar-header
+      button.navbar-toggle(type="button",data-toggle="collapse",data-target=".navbar-collapse")
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand(href="/") Liqu-id.me
+    .navbar-collapse.collapse
+      ul.nav.navbar-nav
+        li
+          a(href="#", onclick="modal.goStep('intro',{targetId:'#mUploader'});") upload
+      form.navbar-form.navbar-right(role="form",name='navFrm')
+        ul.nav.navbar-nav
+          li
+            button.btn.btn-success(type="submit") Sign up
+          li &nbsp;&nbsp;
+          li
+            button#signIn.btn.btn-primary Sign in
