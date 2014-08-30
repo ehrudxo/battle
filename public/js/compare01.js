@@ -1,5 +1,6 @@
 ;(function(){
   modal={};
+  cpgoods = {};
   var modalId;
   var $modal;
   var isPoped = false;
@@ -274,5 +275,9 @@
   };
   modal.setDetailSearch = function(value){
     isDetail = value;
+  }
+  cpgoods.compare = function(){
+    console.log($('#cpgoods').val());
+    
   }
 })();

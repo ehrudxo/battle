@@ -1,4 +1,4 @@
-doctype html
+doctype html(debug='true')
 html(lang="kr")
   include ./head.jade
   body
@@ -10,10 +10,12 @@ html(lang="kr")
             h1 업로드한 짤들을 적절히
             p 선택해서 비교!
           .row
-            select.image-picker.show-labels.show-html
+            select#cpgoods.image-picker.show-labels.show-html(multiple='multiple')
               - for (var i = 0; i < list.length; ++i) {
               option(data-img-src='/getUploadImg/#{list[i]["value"]["imgs"][0]["filetoken"]}',value='#{list[i]["value"]["imgs"][0]["filetoken"]}') #{list[i]["value"]["content"]}
               - }
+          .row
+            .btn.btn-primary#bCompBtn(onclick='cpgoods.compare();') 비교하기
         .col-xs-6.col-sm-3.sidebar-offcanvas
           p aa
     footer

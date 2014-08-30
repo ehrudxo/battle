@@ -55,3 +55,12 @@
         .progress.progress-striped.active.hidden
           .progress-bar(role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%")
             span.sr-only 45% complete
+#mCpgoods.modal
+  p
+  .row
+    .col-lg-12
+      textarea#freecontent.form-control(name="content",placeholder="자유 코멘트를 입력하세요", rows="10")
+  p
+  .row
+    .col-lg-12
+      input#tags.form-control(name="tags",placeholder="태그입력(상품명,가격,정보 등등 쉼표로 구분)")
