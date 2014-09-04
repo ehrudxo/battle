@@ -278,6 +278,6 @@
   }
   cpgoods.compare = function(){
     console.log($('#cpgoods').val());
-    
+    $("#mCpgoods").modal();
   }
 })();
