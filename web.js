@@ -171,11 +171,16 @@ function ensureAuthenticated(req, res, next) {
 
 dao.connect( );
 app.use('/list/:username',function( req , res ){
+	res.render('list', {username:req.params.username} );
+});
+app.use('/getAtricles/:username',function( req , res ){
+	res.type('application/json');
 	dao.selectArticlesByUser( req.params.username, function(list){
-		console.log("list:",list);
-		res.render('list', {list:list} );
+		res.send(list);
 	});
-
+});
+app.use('/comparegoodies', function( req, res ){
+	res.send('http://www.yeongnam.com/Photo/2008/08/22/M20080822.010091447300001i1.jpg');
 });
 app.use('/blabla/:id/which/:which', function(req,res){
 	var ua = req.headers['user-agent'];

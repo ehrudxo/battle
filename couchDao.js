@@ -8,7 +8,6 @@ var getFilesById = exports.getFilesById = function( username, callback ){
 
 }
 var selectArticlesByUser = exports.selectArticlesByUser = function( username, callback ){
-  console.log(username);
   bases['article'].view('user','byUserName', {key:username} , function(err,body){
     if (!err) {
       var dd = [];

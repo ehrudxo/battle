@@ -1,6 +1,7 @@
 ;(function(){
   modal={};
   cpgoods = {};
+  cpgoods.selectedList = null;
   var modalId;
   var $modal;
   var isPoped = false;
@@ -101,7 +102,7 @@
     } ).done(function(data){
       $( modalId ).modal('toggle');
       resetModal();
-      location.href="/list  ";
+      location.href="/list/keen";
     });
   }
   var steps = {
@@ -276,8 +277,69 @@
   modal.setDetailSearch = function(value){
     isDetail = value;
   }
+  cpgoods.selectArticleByUser = function( username, callback ){
+    $.ajax({ url : "/getAtricles/" + username,
+              method:"GET"
+    } ).done(function(data){
+      cpgoods.selectedList = data;
+      callback(data);
+    });
+  }
+  cpgoods.getGoodiesObj = function( f_token ){
+    var sLen = -1;
+    if(cpgoods.selectedList && (sLen = cpgoods.selectedList.length)>0){
+      for(var i=0;i<sLen;i++){
+        if(cpgoods.selectedList[i] &&
+          cpgoods.selectedList[i]["value"] &&
+          cpgoods.selectedList[i]["value"]["imgs"] &&
+          cpgoods.selectedList[i]["value"]["imgs"][0] &&
+          cpgoods.selectedList[i]["value"]["imgs"][0]["filetoken"] == f_token)
+          return cpgoods.selectedList[i]["value"];
+      }
+    }else{
+      return null;
+    }
+  }
   cpgoods.compare = function(){
-    console.log($('#cpgoods').val());
+    var goodiesId = '#cpgoods';
+    var goodies_body = '#mCpgoods>.modal-dialog>.modal-content>.modal-body>#goodies_comp_body';
+
+    var goodies_arr = $( goodiesId ).val();
+    var goodstring = goodies_arr.join();
     $("#mCpgoods").modal();
+    $('#mCpgoods').on('hidden.bs.modal', function (e) {
+      $(goodies_body+">ul").empty();
+      $(goodies_body+">.tab-content").empty();
+    })
+    var ul_tag = $(goodies_body+">ul");
+    var content_tag = $(goodies_body+">.tab-content");
+    cpgoods.getCompareGoodies(goodstring, function( cp_url ){
+      var cp_comment_tag = cp_url + '<br><p><textarea style=\'width:100%;\' rows=\'7\' name=\'compare_comment\'></textarea><br>';
+      $(goodies_body+">ul").append('<li class="active"><a href="#tab0" role="tab" data-toggle="tab">summary</a></li>');
+      $(goodies_body+">.tab-content").append('<div class="tab-pane active" id="tab0">' + cp_comment_tag +'</div>');
+
+      for(var i=0,len=goodies_arr.length;i<len;i++){
+        var goodies = cpgoods.getGoodiesObj(goodies_arr[i]);
+        $(goodies_body+">ul").append('<li><a href="#tab'+(i+1)+'" role="tab" data-toggle="tab">'+(i+1)+'번</a></li>');
+
+        var tab_content = '<img src=\"'+goodies['imgs'][0]['url']+'\"><br>'+goodies['content'];
+        $(goodies_body+">.tab-content").append('<div class="tab-pane" id="tab'+(i+1)+'">'+tab_content+'</div>');
+      }
+      $('#goodies_tab').tab('show');
+    });
+
+  }
+  cpgoods.getCompareGoodies = function( goodstring, callback ){
+    $.ajax( { url : "/comparegoodies",
+              method:"POST",
+              data: {
+                      goodstring :goodstring
+                      , user : { username: 'keen', id:'1qaz2wsx'}
+                    }
+    } ).done(function(data){
+      if(typeof(data)==="string"){
+        callback('<img style=\'width:100%\' src=\''+data+'\'>');
+      }
+    });
   }
 })();

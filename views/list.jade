@@ -11,9 +11,6 @@ html(lang="kr")
             p 선택해서 비교!
           .row
             select#cpgoods.image-picker.show-labels.show-html(multiple='multiple')
-              - for (var i = 0; i < list.length; ++i) {
-              option(data-img-src='/getUploadImg/#{list[i]["value"]["imgs"][0]["filetoken"]}',value='#{list[i]["value"]["imgs"][0]["filetoken"]}') #{list[i]["value"]["content"]}
-              - }
           .row
             .btn.btn-primary#bCompBtn(onclick='cpgoods.compare();') 비교하기
         .col-xs-6.col-sm-3.sidebar-offcanvas
@@ -21,4 +18,21 @@ html(lang="kr")
     footer
       p I am footer
 include ./modal.jade
+script.
+  var init = function(){
+    cpgoods.selectArticleByUser('#{username}', function(list){
+      var len = -1;
+      if(list && (len = list.length))for(var i=0;i<len;i++){
+        var li_str = "";
+        if(list[i] && list[i]["value"] && list[i]["value"]["imgs"]){
+          var f_token = list[i]["value"]["imgs"][0]["filetoken"];
+          li_str= "<option data-img-src=\"/getUploadImg/"+f_token+"\" ";
+          li_str += " value=\""+f_token+"\">";
+          li_str += list[i]["value"]["content"]+"</option>";
+          $("#cpgoods").append(li_str);
+        }
+      }
+      $("#cpgoods").imagepicker();
+    });
+  }
 include ./fscript.jade
