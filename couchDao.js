@@ -21,6 +21,20 @@ var selectArticlesByUser = exports.selectArticlesByUser = function( username, ca
     }
   });
 }
+var selectDecisionByUser = exports.selectDecisionByUser = function( username, callback ){
+  bases['decision'].view('user','byUserName', {key:username} , function(err,body){
+    if (!err) {
+      var dd = [];
+      body.rows.forEach(function(doc) {
+        dd.push( doc );
+      });
+      callback( dd );
+    }else{
+      console.log("err:",err);
+      callback( null );
+    }
+  });
+}
 var updateDecision = exports.updateDecision = function( id, which, callback){
 }
 var insertFileInfo = exports.insertFileInfo = function(filename,filetype,filetoken, callback ) {
@@ -35,6 +49,15 @@ var insertFileInfo = exports.insertFileInfo = function(filename,filetype,filetok
 }
 var insertArticle = exports.insertArticle = function(mbody, callback ) {
   bases['article'].insert(mbody, function(err, body){
+    if(!err){
+      callback(body.id);
+    }else{
+      callback(null);
+    }
+  });
+}
+var insertDecision = exports.insertDecision = function(mbody, callback ) {
+  bases['decision'].insert(mbody, function(err, body){
     if(!err){
       callback(body.id);
     }else{

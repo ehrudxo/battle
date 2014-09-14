@@ -60,10 +60,11 @@
     .modal-content
       .modal-header
         button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
-        h4.modal-title#uploadheader 방법을 선택하세요
+        h4.modal-title#uploadheader 상세 비교를 작성하세요
       .modal-body
         #goodies_comp_body.container-fluid
           ul.nav.nav-tabs(role='tablist',id='goodies_tab')
           .tab-content
       .modal-footer
+        button.btn.btn-primary(onclick='cpgoods.savegoodies();') 저장
         button.btn.btn-default(data-dismiss="modal") Close

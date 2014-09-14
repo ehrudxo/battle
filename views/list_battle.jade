@@ -1,0 +1,38 @@
+doctype html(debug='true')
+html(lang="kr")
+  include ./head.jade
+  body
+    include ./navbar.jade
+    .container
+      .row.row-offcanvas.row-offcanvas-right
+        .col-xs-12.col-sm-9
+          .jumbotron
+            h1 비교한 짤들을 게시판에
+            p 붙여서 공유!
+          .row
+            select#cpgoods.image-picker.show-labels.show-html(multiple='multiple')
+          .row
+            .btn.btn-primary#bCompBtn(onclick='cpgoods.compare();') 비교하기
+        .col-xs-6.col-sm-3.sidebar-offcanvas
+          p aa
+    footer
+      p I am footer
+include ./modal.jade
+script.
+  var init = function(){
+    cpgoods.selectDecisionByUser('#{username}', function(list){
+      var len = -1;
+      if(list && (len = list.length))for(var i=0;i<len;i++){
+        var li_str = "";
+        if(list[i] && list[i]["value"] && list[i]["value"]["imgs"]){
+          var f_token = list[i]["value"]["imgs"][0]["filetoken"];
+          li_str= "<option data-img-src=\"/getUploadImg/"+list[i]["value"]["imgs"]+".png\" ";
+          li_str += " value=\""+f_token+"\">";
+          li_str += list[i]["value"]["content"]+"</option>";
+          $("#cpgoods").append(li_str);
+        }
+      }
+      $("#cpgoods").imagepicker();
+    });
+  }
+include ./fscript.jade

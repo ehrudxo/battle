@@ -285,6 +285,14 @@
       callback(data);
     });
   }
+  cpgoods.selectDecisionByUser = function(username, callback){
+    $.ajax({ url : "/getDecision/" + username,
+              method:"GET"
+    } ).done(function(data){
+      cpgoods.selectedList = data;
+      callback(data);
+    });
+  }
   cpgoods.getGoodiesObj = function( f_token ){
     var sLen = -1;
     if(cpgoods.selectedList && (sLen = cpgoods.selectedList.length)>0){
@@ -313,33 +321,39 @@
     })
     var ul_tag = $(goodies_body+">ul");
     var content_tag = $(goodies_body+">.tab-content");
-    cpgoods.getCompareGoodies(goodstring, function( cp_url ){
-      var cp_comment_tag = cp_url + '<br><p><textarea style=\'width:100%;\' rows=\'7\' name=\'compare_comment\'></textarea><br>';
-      $(goodies_body+">ul").append('<li class="active"><a href="#tab0" role="tab" data-toggle="tab">summary</a></li>');
-      $(goodies_body+">.tab-content").append('<div class="tab-pane active" id="tab0">' + cp_comment_tag +'</div>');
+    var cp_comment_tag = cpgoods.getCompareGoodies(goodstring) + '<br><p><textarea id =\'goodiesDetail\' style=\'width:100%;\' rows=\'7\' name=\'compare_comment\'></textarea><br>';
+    $(goodies_body+">ul").append('<li class="active"><a href="#tab0" role="tab" data-toggle="tab">summary</a></li>');
+    $(goodies_body+">.tab-content").append('<div class="tab-pane active" id="tab0">' + cp_comment_tag +'</div>');
 
-      for(var i=0,len=goodies_arr.length;i<len;i++){
-        var goodies = cpgoods.getGoodiesObj(goodies_arr[i]);
-        $(goodies_body+">ul").append('<li><a href="#tab'+(i+1)+'" role="tab" data-toggle="tab">'+(i+1)+'번</a></li>');
+    for(var i=0,len=goodies_arr.length;i<len;i++){
+      var goodies = cpgoods.getGoodiesObj(goodies_arr[i]);
+      $(goodies_body+">ul").append('<li><a href="#tab'+(i+1)+'" role="tab" data-toggle="tab">'+(i+1)+'번</a></li>');
 
-        var tab_content = '<img src=\"'+goodies['imgs'][0]['url']+'\"><br>'+goodies['content'];
-        $(goodies_body+">.tab-content").append('<div class="tab-pane" id="tab'+(i+1)+'">'+tab_content+'</div>');
-      }
-      $('#goodies_tab').tab('show');
-    });
+      var tab_content = '<img src=\"'+goodies['imgs'][0]['url']+'\"><br>'+goodies['content'];
+      $(goodies_body+">.tab-content").append('<div class="tab-pane" id="tab'+(i+1)+'">'+tab_content+'</div>');
+    }
+    $('#goodies_tab').tab('show');
+
 
   }
   cpgoods.getCompareGoodies = function( goodstring, callback ){
-    $.ajax( { url : "/comparegoodies",
+    return  '<img style=\'width:100%\' src=\''+'/comparegoodies/'+goodstring+'\'>';
+  }
+  cpgoods.savegoodies = function(){
+    var goodiesId = '#cpgoods';
+    var goodies_arr = $( goodiesId ).val();
+    var goodstring = goodies_arr.join();
+    var goodiesDetail = $( '#goodiesDetail' ).val();
+    $.ajax( { url : "/savedecision/"+goodstring,
               method:"POST",
               data: {
-                      goodstring :goodstring
+                      imgs:goodstring
+                      , content:goodiesDetail
                       , user : { username: 'keen', id:'1qaz2wsx'}
                     }
     } ).done(function(data){
-      if(typeof(data)==="string"){
-        callback('<img style=\'width:100%\' src=\''+data+'\'>');
-      }
+      $( '#mCpgoods' ).modal('toggle');
+      location.href="/list_battle/keen";
     });
   }
 })();

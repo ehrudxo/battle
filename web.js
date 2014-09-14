@@ -173,14 +173,41 @@ dao.connect( );
 app.use('/list/:username',function( req , res ){
 	res.render('list', {username:req.params.username} );
 });
+app.use('/list_battle/:username',function( req , res ){
+	res.render('list_battle', {username:req.params.username} );
+});
+
+app.use('/getDecision/:username',function(req,res){
+	res.type('application/json');
+	dao.selectDecisionByUser( req.params.username, function(list){
+		res.send(list);
+	});
+});
 app.use('/getAtricles/:username',function( req , res ){
 	res.type('application/json');
 	dao.selectArticlesByUser( req.params.username, function(list){
 		res.send(list);
 	});
 });
-app.use('/comparegoodies', function( req, res ){
-	res.send('http://www.yeongnam.com/Photo/2008/08/22/M20080822.010091447300001i1.jpg');
+app.use('/comparegoodies/:goodies', function( req, res ){
+	renderImage.setCanvas(1000,600);
+	renderImage.comparegoodies(req.params.goodies,function( png ){
+		res.set('Content-Type', 'image/png');
+		res.send( png );
+	});
+});
+app.post('/savedecision/:goodies', function( req, res ){
+	renderImage.setCanvas(1000,600);
+	renderImage.savegoodies(req.params.goodies,function( ){
+		dao.insertDecision(req.body, function(isOk){
+			if(isOk){
+				res.send("success");
+			}else{
+				res.send("failure");
+			}
+		});
+	});
+
 });
 app.use('/blabla/:id/which/:which', function(req,res){
 	var ua = req.headers['user-agent'];
